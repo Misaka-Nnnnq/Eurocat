@@ -38,7 +38,10 @@ namespace Eurocat::Config
 
 			if (!newValue.has_value())
 			{
-				spdlog::info("Setting item \"{}\" is set to default value \"{}\" (Value not found)", key, defaultValue);
+				if constexpr (std::is_same_v<T, CString>)
+					spdlog::info("Setting item \"{}\" is set to default value \"{}\" (Value not found)", key.GetString(), defaultValue.GetString());
+				else 
+					spdlog::info("Setting item \"{}\" is set to default value \"{}\" (Value not found)", key.GetString(), defaultValue);
 				value = defaultValue;
 				return;
 			}
@@ -48,12 +51,18 @@ namespace Eurocat::Config
 
 			if (validator == nullptr || validator->IsValid(unwrapped, err))
 			{
-				spdlog::info("Setting item \"{}\" is set to \"{}\"", key, unwrapped);
+				if constexpr (std::is_same_v<T, CString>)
+					spdlog::info("Setting item \"{}\" is set to \"{}\"", key.GetString(), unwrapped.GetString());
+				else 
+					spdlog::info("Setting item \"{}\" is set to \"{}\"", key.GetString(), unwrapped);
 				value = unwrapped;
 			}
 			else
 			{
-				spdlog::info("Setting item \"{}\" is set to default value \"{}\" ({})", key, defaultValue, err);
+				if constexpr (std::is_same_v<T, CString>)
+					spdlog::info("Setting item \"{}\" is set to default value \"{}\" ({})", key.GetString(), defaultValue.GetString(), err.GetString());
+				else
+					spdlog::info("Setting item \"{}\" is set to default value \"{}\" ({})", key.GetString(), defaultValue, err.GetString());
 				value = defaultValue;
 			}
 		}

@@ -35,7 +35,7 @@ namespace Eurocat::Config
 
 			if (std::find(recognizedKeys.begin(), recognizedKeys.end(), tokens[0]) == recognizedKeys.end())
 			{
-				spdlog::warn("Ignored unknown setting item \"{}\"", tokens[0]);
+				spdlog::warn("Ignored unknown setting item \"{}\"", tokens[0].GetString());
 			}
 			else
 			{
